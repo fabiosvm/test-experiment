@@ -1,0 +1,76 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build-ubuntu:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing cmocka
+      run: |
+          sudo apt-get install -y libcmocka-dev
+    - name: Configure CMake
+      run: |
+        cmake -B ${{ github.workspace }}/build
+    - name: Building
+      run: |
+        cmake --build ${{ github.workspace }}/build
+    - name: Testing
+      run: |
+        cd ${{ github.workspace }}/build/tests
+        ctest -C Debug --rerun-failed --output-on-failure
+
+  build-macos:
+    runs-on: macos-latest
+    env:
+      C_INCLUDE_PATH: "/usr/local/Cellar/cmocka/1.1.5/include"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing cmocka
+      run: |
+          brew install cmocka
+    - name: Configure CMake
+      run: |
+        cmake -B ${{ github.workspace }}/build
+    - name: Building
+      run: |
+        cmake --build ${{ github.workspace }}/build
+    - name: Testing
+      run: |
+        cd ${{ github.workspace }}/build/tests
+        ctest -C Debug --rerun-failed --output-on-failure
+
+  build-windows:
+    runs-on: windows-latest
+    env:
+      C_INCLUDE_PATH: "${{ github.workspace }}/cmocka/include"
+      LD_LIBRARY_PATH: "${{ github.workspace }}/cmocka/bin"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing cmocka
+      run: |
+        git clone https://git.cryptomilk.org/projects/cmocka.git
+        cd cmocka
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/cmocka
+        cmake --build . --config Debug --target install
+        cd ../..
+    - name: Configure CMake
+      run: |
+        cmake -B ${{ github.workspace }}/build
+    - name: Building
+      run: |
+        cmake --build ${{ github.workspace }}/build
+    - name: Testing
+      run: |
+        cd ${{ github.workspace }}/build/tests
+        ctest -C Debug --rerun-failed --output-on-failure
