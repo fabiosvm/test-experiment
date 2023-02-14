@@ -1,7 +1,6 @@
 
 @echo off
 
-
 conan install . -if build --build=missing
 
 cmake -B build

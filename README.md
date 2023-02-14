@@ -1,7 +1,7 @@
 
 # Test Experiment
 
-This is an experiment to see how to use `cmocka` to test C code.
+This is an experiment to see how to build a C project with unit and end-to-end tests.
 
 ## Requirements
 
