@@ -14,9 +14,16 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Installing cmocka
+    - name: Checking tools
       run: |
-          sudo apt-get install -y libcmocka-dev
+        cmake --version
+        pip --version
+    - name: Install Conan
+      run: |
+        pip install conan
+    - name: Install Conan packages
+      run: |
+        conan install . -if build --build=missing
     - name: Configure CMake
       run: |
         cmake -B ${{ github.workspace }}/build
@@ -34,9 +41,16 @@ jobs:
       C_INCLUDE_PATH: "/usr/local/Cellar/cmocka/1.1.5/include"
     steps:
     - uses: actions/checkout@v2
-    - name: Installing cmocka
+    - name: Checking tools
       run: |
-          brew install cmocka
+        cmake --version
+        brew --version
+    - name: Install Conan
+      run: |
+        brew install conan
+    - name: Install Conan packages
+      run: |
+        conan install . -if build --build=missing
     - name: Configure CMake
       run: |
         cmake -B ${{ github.workspace }}/build
@@ -55,15 +69,16 @@ jobs:
       LD_LIBRARY_PATH: "${{ github.workspace }}/cmocka/bin"
     steps:
     - uses: actions/checkout@v2
-    - name: Installing cmocka
+    - name: Checking tools
       run: |
-        git clone https://git.cryptomilk.org/projects/cmocka.git
-        cd cmocka
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/cmocka
-        cmake --build . --config Debug --target install
-        cd ../..
+        cmake --version
+        pip --version
+    - name: Install Conan
+      run: |
+        pip install conan
+    - name: Install Conan packages
+      run: |
+        conan install . -if build --build=missing
     - name: Configure CMake
       run: |
         cmake -B ${{ github.workspace }}/build

@@ -10,8 +10,13 @@ else()
   add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 add_executable(${PROJECT_NAME}
   src/main.c
   src/unit.c)
+
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 
 add_subdirectory(tests)
