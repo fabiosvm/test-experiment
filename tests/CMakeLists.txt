@@ -14,4 +14,4 @@ target_link_libraries(unit-test ${CONAN_LIBS})
 
 # End-to-end tests
 
-add_test(NAME dummy-test COMMAND ../../tests/dummy_test.sh)
+add_test(NAME dummy-test COMMAND python3 ../../tests/dummy_test.py)

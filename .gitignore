@@ -2,3 +2,4 @@
 .trash/
 .vscode/
 build/
+tests/__pycache__/

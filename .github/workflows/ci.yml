@@ -18,6 +18,7 @@ jobs:
       run: |
         cmake --version
         pip --version
+        python3 --version
     - name: Install Conan
       run: |
         pip install conan
@@ -45,6 +46,7 @@ jobs:
       run: |
         cmake --version
         brew --version
+        python3 --version
     - name: Install Conan
       run: |
         brew install conan
@@ -73,6 +75,7 @@ jobs:
       run: |
         cmake --version
         pip --version
+        python3 --version
     - name: Install Conan
       run: |
         pip install conan
